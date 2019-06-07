@@ -2,7 +2,7 @@
 	"name": "LinkQ",
 	"version": "0.1",
 	"description": "Take links, and make them queued",
-	"permissions": [ "contextMenus", "storage" ],
+	"permissions": [ "contextMenus", "storage", "declarativeContent" ],
 	"background": {
 		"scripts": [ "dist/bg.js" ],
 		"persistent": false
@@ -11,16 +11,16 @@
 	"page_action": {
 		"default_popup": "dist/popup.html",
 		"default_icon": {
-			"16": "",
-			"32": "",
-			"48": "",
-			"128": ""
+			"16": "static/icon.png",
+			"32": "static/icon.png",
+			"48": "static/icon.png",
+			"128": "static/icon.png"
 		}
 	},
 	"icons": {
-		"16": "",
-		"32": "",
-		"48": "",
-		"128": ""
+		"16": "static/icon.png",
+		"32": "static/icon.png",
+		"48": "static/icon.png",
+		"128": "static/icon.png"
 	}
 }

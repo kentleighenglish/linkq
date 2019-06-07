@@ -1,2 +1,10 @@
-import './lib/angular.min.js';
-import './lib/socketio.min.js';
+import { module, bootstrap } from 'angular';
+import './scss/bootstrap.scss';
+
+import ComponentsModule from './components/components.module';
+
+angular.module('app', [
+	ComponentsModule
+]);
+
+bootstrap(document, [ 'app' ]);
