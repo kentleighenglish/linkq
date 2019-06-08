@@ -75,7 +75,10 @@ module.exports = (env = { NODE_ENV: 'production' }) => {
 			]
 		},
 		resolve: {
-			extensions: [ '.js' ]
+			extensions: [ '.js' ],
+			alias: {
+				'shared': path.resolve('..', 'shared')
+			}
 		},
 		plugins: [
 			new MiniCssExtractPlugin({

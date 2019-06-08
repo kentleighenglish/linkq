@@ -4,7 +4,7 @@ const { createLogger } = require('redux-logger');
 const thunk = require('redux-thunk').default;
 
 // Fetch SCSS core file
-require('./scss/bootstrap.scss');
+require('shared/scss/bootstrap.scss');
 
 require('./app.module');
 require('ng-redux');
