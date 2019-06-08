@@ -1,11 +1,18 @@
-import { component } from 'angular';
-import './app-header.scss';
+require('./app-header.scss');
 
-const AppHeaderComponent = () => {
-	
-	function $onInit() {
-		
+class AppHeaderComponent {
+
+	constructor($scope) {
+		console.log('init 1');
+	}
+
+	$onInit() {
+		console.log('init');
 	}
 }
 
-export default AppHeaderComponent;
+module.exports = {
+	controller: [ '$scope', AppHeaderComponent],
+	controllerAs: 'vm',
+	template: require('./app-header.html').default
+};

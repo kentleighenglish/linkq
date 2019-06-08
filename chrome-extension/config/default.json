@@ -1,5 +1,7 @@
 {
-	"colours": {
-		"primary": "#FF0000"
-	}
+  "colours": {
+    "primary": "#6988c7"
+  },
+  "socket": {
+  }
 }
