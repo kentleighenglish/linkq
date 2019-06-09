@@ -1,6 +1,7 @@
+@import '_global.scss';
 
 app-header {
 	display: block;
-	color: white;
+	color: $c-primary;
 	height: 100px;
 }

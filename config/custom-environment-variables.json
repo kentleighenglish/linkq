@@ -1,0 +1,6 @@
+{
+  "socket": {
+    "host": "SOCKET_HOST",
+    "path": "SOCKET_PATH"
+  }
+}
