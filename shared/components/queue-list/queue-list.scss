@@ -1,0 +1,17 @@
+@import '_global.scss';
+
+queue-list {
+	display: block;
+
+	ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+
+		li {
+			padding: 15px;
+			border-bottom: 1px solid $c-primary;
+			font-weight: 600;
+		}
+	}
+}

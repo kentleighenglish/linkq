@@ -3,11 +3,9 @@ require('./app-header.scss');
 class AppHeaderComponent {
 
 	constructor($scope) {
-		console.log('init 1');
 	}
 
 	$onInit() {
-		console.log('init');
 	}
 }
 

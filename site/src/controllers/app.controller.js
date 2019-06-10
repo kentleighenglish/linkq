@@ -26,7 +26,7 @@ class AppController {
 	}
 
 	handleSocketIo() {
-		this.socket.on('receiveQueue', (queue) => this.receiveQueue(queue));
+		this.socket.on('refreshQueue', (queue) => this.receiveQueue(queue));
 	}
 
 }

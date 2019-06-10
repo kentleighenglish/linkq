@@ -1,5 +1,4 @@
-const socket = require('socket.io-client');
-
+const io = require('socket.io-client');
 // const hasYoutubeLink = {
 //     conditions: [
 //         new chrome.declarativeContent.PageStateMatcher({
@@ -8,6 +7,8 @@ const socket = require('socket.io-client');
 //     ],
 //     actions: [ new chrome.declarativeContent.ShowPageAction() ]
 // };
+
+const { socket: socketConfig } = config;
 
 chrome.runtime.onInstalled.addListener((details) => {
 
@@ -22,6 +23,19 @@ chrome.runtime.onInstalled.addListener((details) => {
 	});
 
 	chrome.contextMenus.onClicked.addListener(({ linkUrl }) => {
+		console.log('Attempting to add link to queue');
+		const socket = io.connect(socketConfig.host, {
+			path: socketConfig.path
+		});
 
+		socket.once('connect', () => {
+			console.log('Connected to Socket Server');
+
+			console.log('Add To Queue');
+			console.log(socket);
+			socket.emit('addToQueue', linkUrl);
+
+			socket.disconnect();
+		});
 	});
 });
