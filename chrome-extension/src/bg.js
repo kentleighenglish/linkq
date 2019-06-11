@@ -10,6 +10,23 @@ const io = require('socket.io-client');
 
 const { socket: socketConfig } = config;
 
+chrome.contextMenus.onClicked.addListener(({ linkUrl }) => {
+	console.log('Attempting to add link to queue');
+	const socket = io.connect(socketConfig.host, {
+		path: socketConfig.path
+	});
+
+	socket.once('connect', () => {
+		console.log('Connected to Socket Server');
+
+		console.log('Add To Queue');
+		console.log(socket);
+		socket.emit('addToQueue', linkUrl);
+
+		socket.disconnect();
+	});
+});
+
 chrome.runtime.onInstalled.addListener((details) => {
 
 	chrome.contextMenus.removeAll(() => {
@@ -20,22 +37,5 @@ chrome.runtime.onInstalled.addListener((details) => {
 			title: 'Add to LinkQ',
 			targetUrlPatterns: [ '*://youtube.com/watch*', '*://www.youtube.com/watch*', '*://youtu.be/*', '*://www.youtu.be/*' ]
 		})
-	});
-
-	chrome.contextMenus.onClicked.addListener(({ linkUrl }) => {
-		console.log('Attempting to add link to queue');
-		const socket = io.connect(socketConfig.host, {
-			path: socketConfig.path
-		});
-
-		socket.once('connect', () => {
-			console.log('Connected to Socket Server');
-
-			console.log('Add To Queue');
-			console.log(socket);
-			socket.emit('addToQueue', linkUrl);
-
-			socket.disconnect();
-		});
 	});
 });
