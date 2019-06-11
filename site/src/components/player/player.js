@@ -1,5 +1,5 @@
 const YTPlayer = require('yt-player');
-const { find } = require('lodash');
+const { findKey } = require('lodash');
 require('./player.scss');
 
 class PlayerComponent {
@@ -12,22 +12,24 @@ class PlayerComponent {
 	mapStateToThis({ queue }) {
 		return {
 			queue,
-			playingVideo: find(queue.queue, { playing: true })
+			playingVideo: findKey(queue.queue, { playing: true })
 		}
 	}
 
 	$onInit() {
 		this.videoContainer = document.getElementById('videoContainer');
 
-		this.loadVideoPlayer();
-	}
-
-	loadVideoPlayer() {
 		this.ytPlayer = new YTPlayer(this.videoContainer);
 
-		if (this.playingVideo) {
-			this.ytPlayer.load(this.playingVideo.videoId);
-		}
+		this.$scope.$watch(() => this.playingVideo, () => {
+			if (this.playingVideo) {
+				this.loadVideo(this.playingVideo);
+			}
+		});
+	}
+
+	loadVideo(id) {
+		this.ytPlayer.load(id);
 	}
 
 }
