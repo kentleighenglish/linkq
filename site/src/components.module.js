@@ -1,8 +1,10 @@
 const { module } = require('angular');
 
-const AppHeader = require('shared/components/app-header/app-header');
-const QueueList = require('shared/components/queue-list/queue-list');
+const AppHeaderComponent = require('shared/components/app-header/app-header');
+const QueueListComponent = require('shared/components/queue-list/queue-list');
+const PlayerComponent = require('./components/player/player');
 
 module('ComponentsModule', [])
-.component('appHeader', AppHeader)
-.component('queueList', QueueList);
+.component('appHeader', AppHeaderComponent)
+.component('queueList', QueueListComponent)
+.component('player', PlayerComponent);

@@ -8,6 +8,7 @@
 
 		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 		<link rel="icon" href="/favicon.ico" type="image/x-icon">
+
 		<style>
 			body {
 				margin: 0 60px;
@@ -22,6 +23,7 @@
 	<body ng-controller="appController as app">
 		<app-header></app-header>
 		<div class="container">
+			<player></player>
 			<queue-list></queue-list>
 			<p>{{ app.queue.length }} Items</p>
 		</div>
