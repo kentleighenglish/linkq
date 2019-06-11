@@ -5,3 +5,7 @@ body {
 	color: $c-primary;
 	background-color: $c-grey;
 }
+
+*[ng-cloak] {
+	display: none;
+}
