@@ -28,8 +28,9 @@ const add = async (url) => {
 
 	const queue = await fetchAll();
 
-	db.insert({
+	await db.insert({
 		index: queue.length,
+		playing: false,
 		videoId,
 		title
 	}, err => {
@@ -53,7 +54,15 @@ const fetchAll = () => {
 	});
 }
 
+const setPlaying = async (videoId) => {
+	await db.update({}, { $set: { playing: false } }, { multi: true });
+	await db.update({ videoId }, { $set: { playing: true } });
+
+	return true;
+}
+
 module.exports = {
 	add,
-	fetchAll
+	fetchAll,
+	setPlaying
 }

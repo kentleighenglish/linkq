@@ -50,6 +50,10 @@ class AppController {
 		})
 	}
 
+	playVideo(videoId) {
+		this.socket.emit('playVideo', videoId);
+	}
+
 }
 
 module.exports = [ '$scope', '$ngRedux', 'socket', AppController ];

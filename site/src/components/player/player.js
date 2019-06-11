@@ -10,6 +10,7 @@ class PlayerComponent {
 	}
 
 	mapStateToThis({ queue }) {
+		console.log(queue.queue);
 		return {
 			queue,
 			playingVideo: findKey(queue.queue, { playing: true })

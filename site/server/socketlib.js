@@ -23,7 +23,7 @@ const hookEvents = async () => {
 	io.on('connection', socket => {
 		debug(`Received connection from ${socket.id}`);
 
-		socket.emit('refreshQueue', keyBy(queue, 'videoId'));
+		refresh(socket);
 
 		socket.on('addToQueue', async (url) => {
 			debug(`Adding ${url} to queue`);
@@ -32,16 +32,27 @@ const hookEvents = async () => {
 			await updateAll();
 		});
 
+		socket.on('playVideo', async (videoId) => {
+			debug(`Seting video: ${videoId} as playing`);
+
+			await queuelib.setPlaying(videoId);
+			await refresh(io);
+		});
+
 		return;
 	});
 }
 
 const updateAll = async () => {
+	debug('Updating clients...');
+	refresh(io);
+	return;
+}
+
+const refresh = async (sock) => {
 	queue = await queuelib.fetchAll();
 
-	debug('Updating clients...');
-	io.emit('refreshQueue', keyBy(queue, 'videoId'));
-	return;
+	sock.emit('refreshQueue', keyBy(queue, 'videoId'));
 }
 
 module.exports = {
