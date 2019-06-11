@@ -36,7 +36,7 @@ const hookEvents = async () => {
 }
 
 const updateAll = async () => {
-	queue = await queuelib.refresh();
+	queue = await queuelib.fetchAll();
 
 	debug('Updating clients...');
 	io.emit('refreshQueue', queue);

@@ -9,8 +9,6 @@ const yt = new youtube.Youtube({
 	auth: gapi.key
 });
 
-var queue = [];
-
 const ytRegex = /.*(youtube.com\/watch\?v=|youtu.be\/)/;
 
 const fetchYoutubeTitle = async (id) => {
@@ -28,6 +26,8 @@ const add = async (url) => {
 
 	const title = await fetchYoutubeTitle(videoId);
 
+	const queue = await fetchAll();
+
 	db.insert({
 		index: queue.length,
 		videoId,
@@ -39,7 +39,7 @@ const add = async (url) => {
 	});
 }
 
-const refresh = () => {
+const fetchAll = () => {
 	return new Promise((resolve, reject) => {
 		db.find({}, (err, result) => {
 
@@ -54,5 +54,5 @@ const refresh = () => {
 
 module.exports = {
 	add,
-	refresh
+	fetchAll
 }
