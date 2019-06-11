@@ -41,8 +41,9 @@ const add = async (url) => {
 
 const fetchAll = () => {
 	return new Promise((resolve, reject) => {
-		db.find({}, (err, result) => {
-
+		db.find({})
+		.sort({ index: 1 })
+		.exec((err, result) => {
 			if (result) {
 				debug(`Queue has [${result.length}] items`);
 

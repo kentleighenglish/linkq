@@ -1,6 +1,7 @@
 const config = require('config');
 const debug = require('debug')('linkq:socketlib');
 const socketio = require('socket.io')
+const { keyBy } = require('lodash');
 
 const queuelib = require('./queuelib');
 
@@ -22,7 +23,7 @@ const hookEvents = async () => {
 	io.on('connection', socket => {
 		debug(`Received connection from ${socket.id}`);
 
-		socket.emit('refreshQueue', queue);
+		socket.emit('refreshQueue', keyBy(queue, 'videoId'));
 
 		socket.on('addToQueue', async (url) => {
 			debug(`Adding ${url} to queue`);
@@ -39,7 +40,7 @@ const updateAll = async () => {
 	queue = await queuelib.fetchAll();
 
 	debug('Updating clients...');
-	io.emit('refreshQueue', queue);
+	io.emit('refreshQueue', keyBy(queue, 'videoId'));
 	return;
 }
 
