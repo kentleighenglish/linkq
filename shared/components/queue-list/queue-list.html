@@ -1,5 +1,8 @@
 <div>
 	<ul ng-repeat="item in ctrl.queue">
-		<li ng-click="ctrl.playVideo(item._id)">{{ item.videoId }}</li>
+		<li ng-click="ctrl.playVideo(item._id)">
+			<img ng-src="{{ 'https://i.ytimg.com/vi/'+item.videoId+'/default.jpg' }}" />
+			<p>{{ item.title }}</p>
+		</li>
 	</ul>
 </div>
