@@ -16,7 +16,8 @@ class AppController {
 
 	mapStateToThis({ queue }) {
 		return {
-			queue: queue.queue
+			queue: queue.queue,
+			queueCount: Object.keys(queue.queue).length
 		}
 	}
 
