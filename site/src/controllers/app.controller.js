@@ -1,5 +1,5 @@
-const { receiveQueue } = require('../actions/queue');
-const { setConnecting, setConnected } = require('../actions/socket');
+const { receiveQueue } = require('shared/actions/queue');
+const { setConnecting, setConnected } = require('shared/actions/socket');
 
 class AppController {
 

@@ -9,6 +9,7 @@ class QueueListController {
 	}
 
 	mapStateToThis({ queue: { queue } }) {
+		console.log(queue);
 		return {
 			queue
 		}

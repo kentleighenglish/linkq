@@ -1,6 +1,6 @@
 const { cloneDeep } = require('lodash');
 
-const { QUEUE_TYPES } = require('../actions/queue');
+const { QUEUE_TYPES } = require('shared/actions/queue');
 
 const INITIAL_STATE = {
 	loading: false,

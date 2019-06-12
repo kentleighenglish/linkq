@@ -1,5 +1,4 @@
 <div>
-	{{ app }}
 	<ul ng-repeat="item in ctrl.queue">
 		<li ng-click="ctrl.playVideo(item.videoId)">
 			<img ng-src="{{ 'https://i.ytimg.com/vi/'+item.videoId+'/default.jpg' }}" />

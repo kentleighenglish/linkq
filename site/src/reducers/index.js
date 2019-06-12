@@ -1,7 +1,7 @@
 const { combineReducers } = require('redux');
 
-queue = require('./queue');
-socket = require('./socket');
+queue = require('shared/reducers/queue');
+socket = require('shared/reducers/socket');
 
 module.exports = combineReducers({
 	queue,

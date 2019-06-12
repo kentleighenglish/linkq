@@ -24,6 +24,9 @@ if (process.env.NODE_ENV === 'development') {
 const rootReducer = require('./reducers');
 const store = createStore(rootReducer, {}, applyMiddleware(...middleware));
 
+// Socket Factory
+const SocketFactory = require('shared/factories/socket.factory');
+
 // Initialise App structure
 module('app', [
 	'AppModule',
@@ -32,5 +35,6 @@ module('app', [
 .config(($ngReduxProvider) => {
 	$ngReduxProvider.provideStore(store);
 })
+.factory('socket', SocketFactory)
 
 bootstrap(document, [ 'app' ]);

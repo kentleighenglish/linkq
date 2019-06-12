@@ -4,11 +4,15 @@ app-header {
 	display: block;
 	color: $c-primary;
 	height: 100px;
-	font-size: 30px;
+	font-size: 140%;
 	padding: 15px 0;
 
 	h1 {
 		margin: 0;
 		padding: 0;
+	}
+
+	.popup & {
+		height: initial;
 	}
 }

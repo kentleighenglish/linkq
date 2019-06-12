@@ -1,6 +1,6 @@
 const { cloneDeep } = require('lodash');
 
-const { SOCKET_TYPES } = require('../actions/socket');
+const { SOCKET_TYPES } = require('shared/actions/socket');
 
 const INITIAL_STATE = {
 	connected: false,

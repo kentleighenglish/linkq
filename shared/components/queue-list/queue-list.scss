@@ -12,6 +12,7 @@ queue-list {
 			padding: 15px;
 			border-bottom: 1px solid $c-primary;
 			font-weight: 600;
+			font-size: 80%;
 			display: flex;
 			align-items: center;
 
@@ -22,6 +23,12 @@ queue-list {
 
 			img {
 				margin-right: 15px;
+
+				width: 120px;
+
+				.popup & {
+					width: 80px;
+				}
 			}
 
 			p {
