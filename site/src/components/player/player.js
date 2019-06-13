@@ -1,5 +1,6 @@
 const YTPlayer = require('yt-player');
 const { findKey, find } = require('lodash');
+const { nextVideo } = require('shared/actions/queue');
 require('./player.scss');
 
 class PlayerComponent {
@@ -7,13 +8,20 @@ class PlayerComponent {
 	constructor($scope, $ngRedux, socket) {
 		this.$scope = $scope;
 		this.socket = socket;
-		$ngRedux.connect(this.mapStateToThis)(this);
+		$ngRedux.connect(this.mapStateToThis, this.mapDispatchToThis)(this);
 	}
 
-	mapStateToThis({ queue: { queue } }) {
+	mapStateToThis({ queue: { queue, playingVideo, playingIndex } }) {
 		return {
 			queue,
-			playingVideo: findKey(queue, { playing: true })
+			playingVideo,
+			playingIndex
+		}
+	}
+
+	mapDispatchToThis(dispatch) {
+		return {
+			nextVideo: socket => dispatch(nextVideo(socket))
 		}
 	}
 
@@ -24,8 +32,10 @@ class PlayerComponent {
 			autoplay: true
 		});
 
+		this.ytPlayer.mute();
+
 		this.ytPlayer.on('ended', () => {
-			this.nextVideo();
+			this.nextVideo(this.socket);
 		});
 
 		this.ytPlayer.on('cued', () => {
@@ -41,17 +51,6 @@ class PlayerComponent {
 
 	loadVideo(id) {
 		this.ytPlayer.load(id);
-	}
-
-	nextVideo() {
-		const currentVid = this.queue[this.playingVideo];
-		const nextIndex = currentVid.index + 1;
-
-		const nextId = findKey(this.queue, { index: nextIndex });
-
-		if (nextId) {
-			this.socket.emit('playVideo', nextId);
-		}
 	}
 
 }
