@@ -1,0 +1,58 @@
+body {
+  margin: 0;
+  font-family: Montserrat, Verdana, sans-serif;
+  color: #6988c7;
+  background-color: #E6F0F2; }
+
+*[ng-cloak] {
+  display: none; }
+
+p {
+  font-size: 120%; }
+
+app-header {
+  display: block;
+  color: #6988c7;
+  height: 100px;
+  font-size: 140%;
+  padding: 15px 0; }
+  app-header h1 {
+    margin: 0;
+    padding: 0; }
+  .popup app-header {
+    height: initial; }
+
+queue-list {
+  display: block; }
+  queue-list ul {
+    list-style: none;
+    margin: 0;
+    padding: 0; }
+    queue-list ul li {
+      padding: 15px;
+      border-bottom: 1px solid #6988c7;
+      font-weight: 600;
+      font-size: 80%;
+      display: flex;
+      align-items: center; }
+      queue-list ul li:hover {
+        cursor: pointer;
+        background: #d5e6e9; }
+      queue-list ul li img {
+        margin-right: 15px;
+        width: 120px; }
+        .popup queue-list ul li img {
+          width: 80px; }
+      queue-list ul li p {
+        font-size: 140%;
+        margin: 0; }
+
+player-controls {
+  display: block; }
+
+player #videoContainer {
+  opacity: 0;
+  height: 0; }
+
+
+/*# sourceMappingURL=app.css.map*/

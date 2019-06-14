@@ -13,6 +13,7 @@
 <html>
 	<body class="popup" ng-controller="appController as app">
 		<app-header></app-header>
+		<player-controls></player-controls>
 		<queue-list on-play-video="app.playVideo(videoId)"></queue-list>
 		<p>{{ app.queueCount }} Items</p>
 	</body>

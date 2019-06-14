@@ -16,7 +16,11 @@ chrome.contextMenus.onClicked.addListener(({ linkUrl }) => {
 		path: socketConfig.path
 	});
 
+	const { username, password } = socketConfig;
+
 	socket.once('connect', () => {
+		socket.emit('authenticate', { username, password });
+
 		console.log('Connected to Socket Server');
 
 		console.log('Add To Queue');

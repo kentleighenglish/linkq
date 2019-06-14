@@ -1,1 +1,8 @@
 @import '_global.scss';
+
+player {
+	#videoContainer {
+		opacity: 0;
+		height: 0;
+	}
+}

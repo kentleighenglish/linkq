@@ -1,5 +1,5 @@
-const { receiveQueue } = require('shared/actions/queue');
-const { setConnecting, setConnected } = require('shared/actions/socket');
+const { receiveQueue, updatePlayerState } = require('shared/actions/queue');
+const { setConnecting, setConnected, setSocket } = require('shared/actions/socket');
 
 class AppController {
 
@@ -24,13 +24,18 @@ class AppController {
 	mapDispatchToThis(dispatch) {
 		return {
 			receiveQueue: queue => dispatch(receiveQueue(queue)),
+			setSocket: socket => dispatch(setSocket(socket)),
 			setConnecting: connecting => dispatch(setConnecting(connecting)),
-			setConnected: connected => dispatch(setConnected(connected))
+			setConnected: connected => dispatch(setConnected(connected)),
+			updatePlayerState: state => dispatch(updatePlayerState(state))
 		}
 	}
 
 	handleSocketIo() {
-		this.socket.on('refreshQueue', (queue) => this.receiveQueue(queue));
+		this.setSocket(this.socket);
+
+		this.socket.on('refreshQueue', queue => this.receiveQueue(queue));
+		this.socket.on('updatePlayerState', state => this.updatePlayerState(state));
 
 		this.socket.on('connect', () => {
 			this.setConnecting(false);

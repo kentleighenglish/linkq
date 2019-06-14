@@ -1,0 +1,9 @@
+<div>
+	<div ng-click="ctrl.prevVideo()">Prev</div>
+	<div ng-switch="ctrl.playerState">
+		<div ng-switch-when="playing" ng-click="ctrl.pause()">Pause</div>
+		<div ng-switch-when="paused" ng-click="ctrl.play()">Play</div>
+	</div>
+	<div ng-click="ctrl.nextVideo()">Next</div>
+	<div ng-click="ctrl.clearQueue()">Clear</div>
+</div>

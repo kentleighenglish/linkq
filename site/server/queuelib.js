@@ -4,6 +4,7 @@ const db = new Datastore({ filename: './store/database.db', autoload: true });
 const debug = require('debug')('linkq:queuelib');
 const { gapi } = require('config');
 const { youtube_v3: youtube } = require('googleapis');
+const { findIndex } = require('lodash');
 
 const yt = new youtube.Youtube({
 	auth: gapi.key
@@ -21,16 +22,18 @@ const fetchYoutubeTitle = async (id) => {
 	return null;
 }
 
-const add = async (url) => {
+const add = async (url, playerState) => {
 	const videoId = url.replace(ytRegex, '');
 
 	const title = await fetchYoutubeTitle(videoId);
 
 	const queue = await fetchAll();
 
+	const playing = findIndex(queue, { playing: true });
+
 	await db.insert({
 		index: queue.length,
-		playing: false,
+		playing: (playerState === 'stopped' || (playerState === 'playing' && playing === -1)),
 		videoId,
 		title
 	}, err => {
@@ -38,6 +41,12 @@ const add = async (url) => {
 			return true;
 		}
 	});
+}
+
+const clearQueue = async () => {
+	await db.remove({});
+
+	return;
 }
 
 const fetchAll = () => {
@@ -64,5 +73,6 @@ const setPlaying = async (videoId) => {
 module.exports = {
 	add,
 	fetchAll,
+	clearQueue,
 	setPlaying
 }
