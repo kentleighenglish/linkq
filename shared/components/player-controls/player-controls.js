@@ -1,4 +1,4 @@
-const { prevVideo, nextVideo } = require('shared/actions/queue');
+const { prevVideo, nextVideo, setPlayerState, clearQueue } = require('shared/actions/queue');
 
 require('./player-controls.scss');
 
@@ -9,27 +9,30 @@ class PlayerControlsComponent {
 		$ngRedux.connect(this.mapStateToThis, this.mapDispatchToThis)(this);
 	}
 
-	mapStateToThis({ queue: { queue, playingIndex, playingVideo } }) {
+	mapStateToThis({ queue: { queue, playingIndex, playingVideo, playerState } }) {
 		return {
 			queue,
 			playingIndex,
-			playingVideo
+			playingVideo,
+			playerState
 		}
 	}
 
 	mapDispatchToThis(dispatch) {
 		return {
-			prevVideo: socket => dispatch(prevVideo(socket)),
-			nextVideo: socket => dispatch(nextVideo(socket))
+			prevVideo: () => dispatch(prevVideo()),
+			nextVideo: () => dispatch(nextVideo()),
+			clearQueue: () => dispatch(clearQueue()),
+			setPlayerState: state => dispatch(setPlayerState(state))
 		}
 	}
 
-	prev() {
-		this.prevVideo(this.socket);
+	play() {
+		this.setPlayerState('playing');
 	}
 
-	next() {
-		this.nextVideo(this.socket);
+	pause() {
+		this.setPlayerState('paused');
 	}
 }
 

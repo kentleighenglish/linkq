@@ -1,11 +1,13 @@
 const config = require('config');
 const debug = require('debug')('linkq:socketlib');
-const socketio = require('socket.io')
+const socketio = require('socket.io');
 const { keyBy } = require('lodash');
 
 const queuelib = require('./queuelib');
 
 var queue = [];
+
+var playerState = 'playing';
 
 var io;
 
@@ -14,38 +16,69 @@ const init = async (server) => {
 		path: config.socket.path
 	});
 
-	await hookEvents();
+	hookEvents();
 
-	await updateAll();
+	updateAll();
 }
 
-const hookEvents = async () => {
+const authenticate = ({ username, password }) => {
+	debug('Authenticating socket...');
+	if (username === config.socket.username && password === config.socket.password) {
+		debug('Socket authenticated');
+		return true;
+	}
+
+	debug('Socket not authenticated');
+	return false;
+}
+
+const hookEvents = () => {
 	io.on('connection', socket => {
 		debug(`Received connection from ${socket.id}`);
 
-		refresh(socket);
+		socket.on('authenticate', data => {
+			const authed = authenticate(data);
 
-		socket.on('addToQueue', async (url) => {
-			debug(`Adding ${url} to queue`);
-			await queuelib.add(url);
+			if (authed) {
+				socket.join('authenticated');
 
-			await updateAll();
+				refresh(socket);
+
+				socket.emit('updatePlayerState', playerState);
+
+				socket.on('addToQueue', async (url) => {
+					debug(`Adding ${url} to queue`);
+					await queuelib.add(url, playerState);
+
+					await updateAll();
+				});
+
+				socket.on('playVideo', async (videoId) => {
+					debug(`Seting video: ${videoId} as playing`);
+
+					await queuelib.setPlaying(videoId);
+					await refresh(io);
+				});
+
+				socket.on('setPlayerState', (state) => {
+					playerState = state === 'playing' ? 'playing' : 'paused';
+					debug(`Updating player state to: ${playerState}`);
+					io.to('authenticated').emit('updatePlayerState', playerState);
+				});
+
+				socket.on('clearQueue', async () => {
+					await queuelib.clearQueue();
+
+					await updateAll();
+				});
+			}
 		});
-
-		socket.on('playVideo', async (videoId) => {
-			debug(`Seting video: ${videoId} as playing`);
-
-			await queuelib.setPlaying(videoId);
-			await refresh(io);
-		});
-
-		return;
 	});
 }
 
 const updateAll = async () => {
 	debug('Updating clients...');
-	refresh(io);
+	refresh(io.to('authenticated'));
 	return;
 }
 

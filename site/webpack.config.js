@@ -3,7 +3,7 @@ const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const config = require('config');
 
-module.exports = (env = { NODE_ENV: 'production' }) => {
+const clientConfig = (env = { NODE_ENV: 'production' }) => {
 	const envMode = env.NODE_ENV === 'development' ? 'development' : 'production';
 
 	const { socket } = config;
@@ -72,3 +72,43 @@ module.exports = (env = { NODE_ENV: 'production' }) => {
 		]
 	}
 };
+
+const serverConfig = (env = { NODE_ENV: 'production' }) => {
+	const envMode = env.NODE_ENV === 'development' ? 'development' : 'production';
+
+	const { socket } = config;
+
+	const clientConfig = {
+		socket
+	}
+
+	return {
+		mode: envMode,
+		entry: {
+			'server': './index.js'
+		},
+		target: 'node',
+		output: {
+			filename: '[name].js',
+			path: path.resolve('build')
+		},
+		module: {
+			rules: [
+				{
+					test: /\.js$/,
+					// exclude: /node_modules/,
+					loader: [ 'babel-loader' ]
+				}
+			]
+		},
+		resolve: {
+			modules: [ path.resolve(__dirname, 'node_modules') ],
+			extensions: [ '.js' ]
+		}
+	}
+};
+
+module.exports = [
+	clientConfig,
+	// serverConfig
+];
