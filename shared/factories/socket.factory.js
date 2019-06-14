@@ -4,7 +4,8 @@ module.exports = ($rootScope) => {
 	const { socket: { host, path } } = config;
 
 	const socket = io.connect(host, {
-		path
+		path,
+		transport: [ 'websocket' ]
 	});
 
 	return {
