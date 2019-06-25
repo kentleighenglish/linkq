@@ -32,9 +32,9 @@ module('app', [
 	'AppModule',
 	'ngRedux'
 ])
-.config(($ngReduxProvider) => {
+.config(['$ngReduxProvider', ($ngReduxProvider) => {
 	$ngReduxProvider.provideStore(store);
-})
-.factory('socket', SocketFactory)
+}])
+.factory('socket', [ '$rootScope', SocketFactory ])
 
 bootstrap(document, [ 'app' ]);
