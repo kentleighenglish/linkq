@@ -13,7 +13,12 @@ var io;
 
 const init = async (server) => {
 	io = socketio(server, {
-		path: config.socket.path
+		path: config.socket.path,
+		serveClient: false,
+		pingInterval: 10000,
+		pingTimeout: 5000,
+		cookie: false,
+		wsEngine: 'ws'
 	});
 
 	hookEvents();
