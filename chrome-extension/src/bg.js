@@ -1,30 +1,44 @@
+require('babel-polyfill');
 const io = require('socket.io-client');
-// const hasYoutubeLink = {
-//     conditions: [
-//         new chrome.declarativeContent.PageStateMatcher({
-//             css: [ '*[href*="youtube.com"], *[href*="youtu.be"]' ]
-//         })
-//     ],
-//     actions: [ new chrome.declarativeContent.ShowPageAction() ]
-// };
 
 const { socket: socketConfig } = config;
+let socket;
 
-chrome.contextMenus.onClicked.addListener(({ linkUrl }) => {
-	console.log('Attempting to add link to queue');
-	const socket = io.connect(socketConfig.host, {
+const connectToSocket = async () => {
+	socket = io.connect(socketConfig.host, {
 		path: socketConfig.path
 	});
 
+	const { username, password } = socketConfig;
+
 	socket.once('connect', () => {
+		socket.emit('authenticate', { username, password });
+
 		console.log('Connected to Socket Server');
+		socket.on('refreshQueue', (queue) => {
+			console.log('Received queue');
+			let count = '0';
+			if (queue) {
+				const keys = Object.keys(queue);
 
-		console.log('Add To Queue');
-		console.log(socket);
-		socket.emit('addToQueue', linkUrl);
+				count = `${keys.length}`;
+			}
 
-		socket.disconnect();
+			chrome.browserAction.setBadgeText({ text: count });
+		});
+
+		return socket;
 	});
+}
+
+chrome.contextMenus.onClicked.addListener(async ({ linkUrl }) => {
+	console.log('Attempting to add link to queue');
+	if (!socket) {
+		await connectToSocket();
+	}
+
+	console.log('Add To Queue');
+	socket.emit('addToQueue', linkUrl);
 });
 
 chrome.runtime.onInstalled.addListener((details) => {
@@ -38,4 +52,16 @@ chrome.runtime.onInstalled.addListener((details) => {
 			targetUrlPatterns: [ '*://youtube.com/watch*', '*://www.youtube.com/watch*', '*://youtu.be/*', '*://www.youtu.be/*' ]
 		})
 	});
+});
+
+chrome.runtime.onSuspend.addListener(() => {
+	socket.disconnect();
+
+	socket = null;
+});
+
+chrome.runtime.onStartup.addListener(async () => {
+	if (!socket) {
+		await connectToSocket();
+	}
 });

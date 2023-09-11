@@ -1,7 +1,9 @@
 {
   "socket": {
     "host": "SOCKET_HOST",
-    "path": "SOCKET_PATH"
+    "path": "SOCKET_PATH",
+    "username": "SOCKET_USERNAME",
+    "password": "SOCKET_PASSWORD"
   },
   "gapi": {
     "key": "GOOGLE_API_KEY"

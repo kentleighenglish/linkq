@@ -1,10 +1,15 @@
 const io = require('socket.io-client');
 
 module.exports = ($rootScope) => {
-	const { socket: { host, path } } = config;
+	const { socket: { host, path, username, password } } = config;
 
 	const socket = io.connect(host, {
-		path
+		path,
+		transport: [ 'websocket' ]
+	});
+
+	socket.on('connect', () => {
+		socket.emit('authenticate', { username, password });
 	});
 
 	return {

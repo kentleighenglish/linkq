@@ -6,7 +6,8 @@ const INITIAL_STATE = {
 	loading: false,
 	queue: {},
 	playingIndex: null,
-	playingVideo: null
+	playingVideo: null,
+	playerState: 'playing'
 };
 
 module.exports = (state = cloneDeep(INITIAL_STATE), action) => {
@@ -16,9 +17,11 @@ module.exports = (state = cloneDeep(INITIAL_STATE), action) => {
 		case QUEUE_TYPES.RECEIVE_QUEUE:
 			state.queue = action.queue;
 			state.playingVideo = findKey(state.queue, { playing: true });
-			state.playingIndex = state.queue[state.playingVideo].index;
+			state.playingIndex = state.playingVideo ? state.queue[state.playingVideo].index : null;
 		break;
-
+		case QUEUE_TYPES.UPDATE_PLAYER_STATE:
+			state.playerState = action.state;
+		break;
 	}
 
 	return state;

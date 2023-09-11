@@ -14,14 +14,13 @@ module.exports = (env = { NODE_ENV: 'production' }) => {
 
 	return {
 		mode: envMode,
-		devtool: 'cheap-module-source-map',
 		entry: {
 			'popup': './src/popup',
 			'bg': './src/bg'
 		},
 		output: {
 			filename: '[name].js',
-			path: envMode === 'development' ? path.resolve('dist') : path.resolve('build')
+			path: path.resolve('dist')
 		},
 		module: {
 			rules: [
